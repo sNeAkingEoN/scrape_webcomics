@@ -1,0 +1,11 @@
+Date: Thu, 29 Apr 2021 13:05:29 GMT
+Location: https://questionablecontent.net/robots.txt
+Vary: Accept-Encoding
+Expires: Thu, 29 Apr 2021 14:05:29 GMT
+Report-To: {"group":"cf-nel","endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report?s=iUMntFbz96crpD3e%2B%2Ft8g5VSiwR4VQu0mXU4WPC58QOAdpGZkPrz8FCjfJ%2Bzz1Wfc533n%2FBIROaCSf9am6WcoRwAO4LvtfH6lBDRcjVWPg0dZC%2BZFgfiAw%3D%3D"}],"max_age":604800}
+Cf-Ray: 6478bdfeff624ec7-FRA
+Cf-Request-Id: 09bf55135800004ec737120000000001
+Cache-Control: max-age=3600
+Server: cloudflare
+Alt-Svc: h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400
+Nel: {"max_age":604800,"report_to":"cf-nel"}

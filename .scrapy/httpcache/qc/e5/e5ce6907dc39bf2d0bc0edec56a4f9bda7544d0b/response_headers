@@ -1,0 +1,12 @@
+X-Powered-By: PHP/5.4.23
+Cf-Request-Id: 09bf5c4bb300004e20e8a08000000001
+Cf-Ray: 6478c98c5c0f4e20-FRA
+Server: cloudflare
+Date: Thu, 29 Apr 2021 13:13:22 GMT
+Nel: {"report_to":"cf-nel","max_age":604800}
+Report-To: {"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report?s=zO9uvU0xl0H27KIVKjrJuPCRP4TIN9O9o5Gn9JgImL%2FPAHUkGkxgB18moKdtLGZ3p%2BtzYNYnUK6bOPst1R0LdP8DDTtZdNjqiz1Wl6%2FoYjEAHHtDwlFarB86%2FYM%3D"}],"max_age":604800,"group":"cf-nel"}
+Cf-Cache-Status: DYNAMIC
+Content-Encoding: gzip
+Expect-Ct: max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+Content-Type: text/html
+Alt-Svc: h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400

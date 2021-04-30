@@ -1,0 +1,15 @@
+Date: Thu, 29 Apr 2021 13:05:36 GMT
+Cf-Ray: 6478be2b2bcc2b95-FRA
+Cache-Control: max-age=14400
+Report-To: {"group":"cf-nel","endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report?s=6lPL6D2svjJ1v4v3hVfeUeVuNYa49kaE8hZnzJPwjZFfDcnRgvpt%2F2p99WaJ6Ob5THLfH3AJ4pN1nz2nluiS4uHJW0DUe1k3m3N1WN7VeR5W2u4mkHlsVw%3D%3D"}],"max_age":604800}
+Age: 76
+Cf-Request-Id: 09bf552ef600002b9591b6d000000001
+Server: cloudflare
+Set-Cookie: __cfduid=d74dd5fc1456730f583fbbe311351c8aa1619701536; expires=Sat, 29-May-21 13:05:36 GMT; path=/; domain=.questionablecontent.net; HttpOnly; SameSite=Lax; Secure
+Nel: {"report_to":"cf-nel","max_age":604800}
+Content-Type: text/html; charset=iso-8859-1
+Content-Encoding: gzip
+Cf-Cache-Status: HIT
+Vary: Accept-Encoding
+Expect-Ct: max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+Alt-Svc: h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400
