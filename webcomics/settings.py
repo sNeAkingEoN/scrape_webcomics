@@ -7,6 +7,10 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+import os.path
+from pathlib import Path # hab ich geaddet, höhö
+WEBCOMICS_BASE_PATH = str(Path(__file__).parent.parent)
+
 BOT_NAME = 'webcomics'
 
 SPIDER_MODULES = ['webcomics.spiders']
@@ -63,9 +67,19 @@ DOWNLOAD_DELAY = 3
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'webcomics.pipelines.WebcomicsPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'webcomics.pipelines.WebcomicsPipeline': 300,
+   # 'scrapy.pipelines.images.ImagesPipeline': 1
+}
+# FILES_STORE = os.path.join(WEBCOMICS_BASE_PATH, 'data', 'metadata', 'lackadaisy.csv')
+# FEEDS = {    FILES_STORE: {
+#                'format': 'csv',
+#                'fields': ['strip_id', 'title','url', 'img_url', 'comment'],
+#             },
+#          }
+
+IMAGES_STORE = os.path.join(WEBCOMICS_BASE_PATH, 'data', 'imgs', 'lackadaisy')
+
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
