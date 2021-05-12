@@ -5,8 +5,17 @@
 
 import scrapy
 
-
-class WebcomicsItem(scrapy.Item):
+class LackadaisyItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    strip_id = scrapy.Field()
+    title = scrapy.Field()
+    url = scrapy.Field()
+    img_url = scrapy.Field()
+    comment = scrapy.Field()
+    image_urls = scrapy.Field()
+    images = scrapy.Field()
+    img_ext = scrapy.Field()
+    date = scrapy.Field() # für andere Comics
+    name = scrapy.Field() # Für Namen des Comics - wenn ich das Ganze abstrahiere
+
