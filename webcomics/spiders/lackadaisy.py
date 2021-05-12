@@ -25,7 +25,7 @@ class LackadaisySpider(CrawlSpider):
     start_urls = ['https://www.lackadaisycats.com/archive.php']
 
     rules = (
-        Rule(LxmlLinkExtractor(allow=[r'comic\.php\?comicid=\d+', r'comic\/.+?\.jpg']), callback='parse_item', follow=False),
+        Rule(LxmlLinkExtractor(allow=r'comic\.php\?comicid=\d+'), callback='parse_item', follow=False),
     )
 
     def parse_item(self, response):
@@ -36,10 +36,6 @@ class LackadaisySpider(CrawlSpider):
         strip['image_urls'] = [ response.xpath('//img/@src').get() ]
         strip['comment'] = response.xpath('//div[@class="description"]').get()
         strip['img_ext'] = response.xpath('//img/@src').get().split('.')[-1]
-
-        # yield scrapy.Request(url=strip['img_url'], callback=self.save_img, cb_kwargs={'strip_id': strip['strip_id'], 'title': strip['title'], 'name': self.name })
-
-        # strip.save_item(self.base_path + '/' + 'lackadaisy.csv')
         return strip # was hier returned wird, kommt bei Scraper-Log wieder raus...
 
     def save_img(self, response, name, strip_id, title):
