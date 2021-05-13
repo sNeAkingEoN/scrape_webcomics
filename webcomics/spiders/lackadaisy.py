@@ -36,13 +36,5 @@ class LackadaisySpider(CrawlSpider):
         strip['image_urls'] = [ response.xpath('//img/@src').get() ]
         strip['comment'] = response.xpath('//div[@class="description"]').get()
         strip['img_ext'] = response.xpath('//img/@src').get().split('.')[-1]
+        strip['name'] = self.__class__.name #??
         return strip # was hier returned wird, kommt bei Scraper-Log wieder raus...
-
-    def save_img(self, response, name, strip_id, title):
-        print("executing save_img (LackadaisySpider)")
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-        file_extension = response.url.split('.')[-1]
-        file_name = '{}_{}_{}.{}'.format(name, strip_id, title, file_extension) # falls Datum statt titel, dieses speichern (TODO)
-        file_path = os.path.join(LackadaisySpider.base_path, name, file_name )
-        with open (file_path, 'wb') as outfile:
-            outfile.write(response.body)

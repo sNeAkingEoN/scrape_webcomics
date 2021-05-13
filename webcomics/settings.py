@@ -9,7 +9,8 @@
 
 import os.path
 from pathlib import Path # hab ich geaddet, höhö
-WEBCOMICS_BASE_PATH = str(Path(__file__).parent.parent)
+WEBCOMICS_BASE_PATH = str(Path(__file__).parent.parent) # The root of this repository
+DATA_BASE_DIRECTORY = str(Path(WEBCOMICS_BASE_PATH).parent.parent) # The place to store the data seperately
 
 BOT_NAME = 'webcomics'
 
@@ -68,7 +69,7 @@ DOWNLOAD_DELAY = 3
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'webcomics.pipelines.WebcomicsPipeline': 300,
+   'webcomics.pipelines.WebcomicImagesPipeline': 300,
    # 'scrapy.pipelines.images.ImagesPipeline': 1
 }
 # FILES_STORE = os.path.join(WEBCOMICS_BASE_PATH, 'data', 'metadata', 'lackadaisy.csv')
@@ -78,7 +79,7 @@ ITEM_PIPELINES = {
 #             },
 #          }
 
-IMAGES_STORE = os.path.join(WEBCOMICS_BASE_PATH, 'data', 'imgs', 'lackadaisy')
+IMAGES_STORE = os.path.join(DATA_BASE_DIRECTORY, 'Data', 'imgs')
 
 
 # Enable and configure the AutoThrottle extension (disabled by default)
