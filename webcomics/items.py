@@ -7,7 +7,6 @@ import scrapy
 
 class LackadaisyItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
     strip_id = scrapy.Field()
     title = scrapy.Field()
     url = scrapy.Field()
