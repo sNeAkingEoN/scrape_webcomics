@@ -71,14 +71,7 @@ DOWNLOAD_DELAY = 3
 ITEM_PIPELINES = {
    'webcomics.pipelines.MetadataPipeline': 350,
    'webcomics.pipelines.WebcomicImagesPipeline': 300,
-   # 'scrapy.pipelines.images.ImagesPipeline': 1
 }
-# FILES_STORE = os.path.join(WEBCOMICS_BASE_PATH, 'data', 'metadata', 'lackadaisy.csv')
-# FEEDS = {    FILES_STORE: {
-#                'format': 'csv',
-#                'fields': ['strip_id', 'title','url', 'img_url', 'comment'],
-#             },
-#          }
 
 IMAGES_STORE = os.path.join(DATA_BASE_DIRECTORY, 'Data', 'imgs')
 
