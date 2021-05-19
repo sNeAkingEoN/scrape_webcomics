@@ -8,7 +8,7 @@
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 import os.path
-from pathlib import Path # hab ich geaddet, höhö
+from pathlib import Path
 WEBCOMICS_BASE_PATH = str(Path(__file__).parent.parent) # The root of this repository
 DATA_BASE_DIRECTORY = str(Path(WEBCOMICS_BASE_PATH).parent.parent) # The place to store the data seperately
 
@@ -69,6 +69,7 @@ DOWNLOAD_DELAY = 3
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
+   'webcomics.pipelines.MetadataPipeline': 350,
    'webcomics.pipelines.WebcomicImagesPipeline': 300,
    # 'scrapy.pipelines.images.ImagesPipeline': 1
 }
