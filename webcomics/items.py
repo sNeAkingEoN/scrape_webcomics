@@ -15,6 +15,7 @@ class LackadaisyItem(scrapy.Item):
     image_urls = scrapy.Field()
     images = scrapy.Field()
     img_ext = scrapy.Field()
+    download_date = scrapy.Field() # Für Datum des Downloads des Images, aus Response
     date = scrapy.Field() # für andere Comics
     name = scrapy.Field() # Für Namen des Comics - wenn ich das Ganze abstrahiere
 
