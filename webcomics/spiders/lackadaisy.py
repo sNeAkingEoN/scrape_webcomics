@@ -11,8 +11,6 @@ class LackadaisySpider(CrawlSpider):
     name = 'lackadaisy'
     allowed_domains = ['lackadaisycats.com']
     # An Settings aus Projekt rankommen: https://stackoverflow.com/questions/45230147/reading-settings-in-spider-scrapy (30.04.2021)
-    settings = get_project_settings()
-    base_path = settings.get('WEBCOMICS_BASE_PATH')
     metadata_fields = ['strip_id', 'title', 'url', 'comment', 'download_date']
 
     # Might need in the future:

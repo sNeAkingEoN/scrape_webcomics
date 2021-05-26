@@ -46,9 +46,6 @@ class MetadataPipeline:
     ''' geht jetzt erstmal davon aus, dass alle Spiders nacheinander abgehandelt werden. 
     Ggf. bei Abstraktion noch mal ein bisschen anders aufziehen...'''
 
-    data_base_dir = get_project_settings().get('DATA_BASE_DIRECTORY')
-    metadata_base_dir = os.path.join(data_base_dir, 'Data', 'meta')
-
     # Alle Tabellendaten in Dataframe oder so speichern und am Ende sortieren...
 
     def open_spider(self, spider):
@@ -64,11 +61,13 @@ class MetadataPipeline:
         return item
 
     def close_spider(self, spider):
-        sorted_df = self.df.sort_values(by='strip_id')
+        sorted_df = self.df.sort_values(by='strip_id').reindex(spider.metadata_fields, axis=1) #.sort_values(axis=1, by=spider.metadata_fields)
         outstring = sorted_df.to_csv(index=False)
-        outfilename = os.path.join(self.__class__.metadata_base_dir, spider.name + '_meta.csv')
-        if not os.path.exists(self.__class__.metadata_base_dir):
-            Path.mkdir(Path(self.__class__.metadata_base_dir))
+        metadata_base_dir = os.path.join(spider.settings['DATA_BASE_DIRECTORY'], 'Data', 'meta')
+        outfilename = os.path.join(metadata_base_dir, spider.name + '_meta.csv')
+        # Übergeordneter Ordner wird nicht automatisch erstellt:
+        if not os.path.exists(metadata_base_dir):
+            Path.mkdir(Path(metadata_base_dir))
         with open(outfilename, 'w') as outfile:
             outfile.write(outstring)
 
