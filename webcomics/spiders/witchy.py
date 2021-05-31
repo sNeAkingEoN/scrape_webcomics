@@ -7,7 +7,6 @@ from PIL import Image
 from scrapy.linkextractors import LinkExtractor
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
-from scrapy.utils.project import get_project_settings
 
 class WitchySpider(CrawlSpider):
     name = 'witchy'
