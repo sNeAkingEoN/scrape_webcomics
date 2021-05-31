@@ -30,7 +30,7 @@ class WitchySpider(CrawlSpider):
         # print('<3<3<3<3img_url:', page_item['img_url'])
         image_item = self._create_image_item(page_item)
         img_request = scrapy.Request(url=page_item['img_url'], callback=self.save_image, cb_kwargs={'image_item': image_item, 'page_item': page_item}) # evtl. noch ändern oder erweitern um titel
-        return (img_request, page_item)
+        yield img_request
         # print('#+#+#+#+#+#+#+# In parse_item')
         # # gucken, ob es sich um Seite oder um Bild handelt
         # if response.url.split('.')[:-1] == 'jpg' or 'comics' in response.url.split('/'):
@@ -69,10 +69,6 @@ class WitchySpider(CrawlSpider):
         # Falls Bild: ComicCanvasImageItem fertig machen und Request losschicken
         # Braucht wahrscheinlich noch Extra-Callbackfunktion zum Speichern und alles 
 
-    def _find_next_page(self, response):
-        pass
-        # das ggf. nicht in extra-Funktion speichern. Kann ich dann aber gucken
-
     def _create_page_item(self, response): 
         item = ComicPageHtmlItem()
         item['name'] = self.name
@@ -97,20 +93,25 @@ class WitchySpider(CrawlSpider):
     def save_image(self, response, image_item, page_item):
         # print('****************** Inside save_image *************')
         image_item['last_modified'] = response.headers['last-modified'].decode('utf-8')
+        image_item['img_data'] = response.body
         page_item['last_modified'] = image_item['last_modified'] # Kommt leider nicht mehr in DF an :(
+
+        img_dir = os.path.join(self.settings.get('IMG_BASE_DIRECTORY'), self.name)
+        img_file = os.path.join(img_dir,'{}_{}.{}'.format(self.name, image_item['id'], image_item['img_ext']))
+
+        if not os.path.exists(img_dir):
+            Path.mkdir(Path(img_dir))
+
+        with open(img_file, 'wb') as imgfile:
+            imgfile.write(image_item['img_data'])
+
         return page_item
         # print(page_item)
 
         # hier Bild speichern
         # base_path = self.settings.IMG_BASE_DIRECTORY
 
-        # print(type(response.body))
-        # img_dir = os.path.join(self.settings.IMG_BASE_DIRECTORY, self.name)
-        # img_file = os.path.join(img_dir, str(self.name) + '_' strip_id + )
-        # if not os.path.exists(img_dir):
-        #     Path.mkdir(img_dir)
 
-        # with open()
 
 
 

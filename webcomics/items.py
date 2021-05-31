@@ -23,7 +23,8 @@ class ComicCanvasImageItem(scrapy.Item):
     pass
     name = scrapy.Field() # Für Namen des Comics
     url = scrapy.Field() # URL, unter der das Bild zu finden ist
-    id = scrapy.Field() # Comic-Id, wie sie 
+    id = scrapy.Field() # Comic-Id, wie sie von Website vorgegeben ist
     title = scrapy.Field()
+    img_data = scrapy.Field()
     last_modified = scrapy.Field() # zum Nachvollziehen der Daten
     img_ext = scrapy.Field() # mal gucken
