@@ -46,13 +46,10 @@ class MetadataPipeline:
     ''' geht jetzt erstmal davon aus, dass alle Spiders nacheinander abgehandelt werden. 
     Ggf. bei Abstraktion noch mal ein bisschen anders aufziehen...'''
 
-    # Alle Tabellendaten in Dataframe oder so speichern und am Ende sortieren...
-
     def open_spider(self, spider):
         self.df = pd.DataFrame()
 
     def process_item(self, item, spider):
-        # print('++++++ processing item +++++++++')
         adapter = ItemAdapter(item)
         csv_row = dict() # Könnte man jetzt auch one-liner draus machen, aber das liest sich nicht unbedingt besser...
         for field in spider.metadata_fields:
@@ -62,9 +59,7 @@ class MetadataPipeline:
         return item
 
     def close_spider(self, spider):
-        # print("Dataframe-Sorgenkind:")
-        # print(self.df.head(10))
-        sorted_df = self.df.sort_values(by='strip_id').reindex(spider.metadata_fields, axis=1) #.sort_values(axis=1, by=spider.metadata_fields)
+        sorted_df = self.df.sort_values(by='strip_id').reindex(spider.metadata_fields, axis=1)
         outstring = sorted_df.to_csv(index=False)
         metadata_base_dir = os.path.join(spider.settings['DATA_BASE_DIRECTORY'], 'Data', 'meta')
         outfilename = os.path.join(metadata_base_dir, spider.name + '_meta.csv')
