@@ -16,12 +16,14 @@ class ComicPageHtmlItem(scrapy.Item):
     # img_ext = scrapy.Field()
     # download_date = scrapy.Field() # Für Datum des Downloads des Images, aus Response ?
     publ_date = scrapy.Field() # Für Datum, an dem Comic offiziell erschienen ist (bei einigen statt ID)
+    last_modified = scrapy.Field() # 
     debug = scrapy.Field()
 
-class ComicCanvasImageItem(scrapy.Item):
+class ComicCanvasImageItem(scrapy.Item): 
     pass
     name = scrapy.Field() # Für Namen des Comics
     url = scrapy.Field() # URL, unter der das Bild zu finden ist
     id = scrapy.Field() # Comic-Id, wie sie 
+    title = scrapy.Field()
     last_modified = scrapy.Field() # zum Nachvollziehen der Daten
     img_ext = scrapy.Field() # mal gucken

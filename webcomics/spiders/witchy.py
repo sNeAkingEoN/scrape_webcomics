@@ -1,39 +1,54 @@
 import os.path
 import re
 import scrapy
-from ..items import ComicPageHtmlItem
+from ..items import ComicPageHtmlItem, ComicCanvasImageItem
+from pathlib import Path
+from PIL import Image
 from scrapy.linkextractors import LinkExtractor
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
-from scrapy.spiders import Spider
+from scrapy.spiders import CrawlSpider, Rule
 from scrapy.utils.project import get_project_settings
 
-class WitchySpider(Spider):
+class WitchySpider(CrawlSpider):
     name = 'witchy'
     allowed_domains = ['witchycomic.com']
-    metadata_fields = ['strip_id', 'title', 'url', 'publ_date', 'comment']
+    start_urls = ['https://www.witchycomic.com/comic/archive']
+    metadata_fields = ['strip_id', 'title', 'url', 'publ_date','comment']
+    rules = (
+        Rule(LxmlLinkExtractor(allow=[r'comic\/page-\d+']), callback='parse_item', follow=False),
+        )
+        # , r'comics\/[-\w]+\.jpg' # in allow
 
-    def start_requests(self):
-        urls = ['https://www.witchycomic.com/comic/page-1']
+        # restrict_xpaths='//a[@class="cc-next"]'
 
         # return super().start_requests()
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse_page)
+        # for url in urls:
+        #     yield scrapy.Request(url=url, callback=self.parse)
             
-    def parse_page(self, response):
-        # gucken, ob es sich um Seite oder um Bild handelt
+    def parse_item(self, response):
+        page_item = self._create_page_item(response)
+        # print('<3<3<3<3img_url:', page_item['img_url'])
+        image_item = self._create_image_item(page_item)
+        img_request = scrapy.Request(url=page_item['img_url'], callback=self.save_image, cb_kwargs={'image_item': image_item, 'page_item': page_item}) # evtl. noch ändern oder erweitern um titel
+        return (img_request, page_item)
+        # print('#+#+#+#+#+#+#+# In parse_item')
+        # # gucken, ob es sich um Seite oder um Bild handelt
         # if response.url.split('.')[:-1] == 'jpg' or 'comics' in response.url.split('/'):
+        #     print('~~~~~~~~~~ Image found! ~~~~~~~~~~~~')
         #     pass
         #     # Treat as image
-        #     self.
-        # -> Nee, das dürfte nicht passieren.
+        # elif 'comic' in response.url.split('/'):
+        #     print('+++++++++++++++++ Page found ****************')
+        #     page_item = self._create_page_item(response)
+        #     return page_item
 
-        metadata_item = self._create_page_item(response=response)
-        next_url = response.xpath('//a[@class="cc-next"]/@href').get() # Funktioniert, weil `get()` immer nur das erste Ergebnis liefert!
-        # metadata_item['debug'] = next_url
+        # metadata_item = self._create_page_item(response=response)
+        # next_url = response.xpath('//a[@class="cc-next"]/@href').get() # Funktioniert, weil `get()` immer nur das erste Ergebnis liefert!
+        # # metadata_item['debug'] = next_url
 
-        # yield scrapy.Request(url=metadata_item['img_url'], callback=self.save_image)
+        # # yield scrapy.Request(url=metadata_item['img_url'], callback=self.save_image)
 
-        return metadata_item # Todo: Wirft Warnung! - Und Item kommt auch nicht zurück...
+        # return metadata_item # Todo: Wirft Warnung! - Und Item kommt auch nicht zurück...
         
         # Item (Metadaten) erstellen (-> Funktion?) - DONE
         # Wird ggf. für nächsten Schritt gebraucht
@@ -70,10 +85,32 @@ class WitchySpider(Spider):
         item['publ_date'] = response.xpath('//div[@class="cc-publishtime"]/text()').get()
         return item
 
-    def save_image(self, response):
-        pass 
+    def _create_image_item(self, page_item):
+        image_item = ComicCanvasImageItem()
+        image_item['name'] = page_item['name']
+        image_item['url'] = page_item['img_url']
+        image_item['id'] = page_item['strip_id']
+        image_item['title'] = page_item['title']
+        image_item['img_ext'] = image_item['url'].split('.')[-1]
+        return image_item
+
+    def save_image(self, response, image_item, page_item):
+        # print('****************** Inside save_image *************')
+        image_item['last_modified'] = response.headers['last-modified'].decode('utf-8')
+        page_item['last_modified'] = image_item['last_modified'] # Kommt leider nicht mehr in DF an :(
+        return page_item
+        # print(page_item)
+
         # hier Bild speichern
         # base_path = self.settings.IMG_BASE_DIRECTORY
+
+        # print(type(response.body))
+        # img_dir = os.path.join(self.settings.IMG_BASE_DIRECTORY, self.name)
+        # img_file = os.path.join(img_dir, str(self.name) + '_' strip_id + )
+        # if not os.path.exists(img_dir):
+        #     Path.mkdir(img_dir)
+
+        # with open()
 
 
 
