@@ -11,6 +11,7 @@ import os.path
 from pathlib import Path
 WEBCOMICS_BASE_PATH = str(Path(__file__).parent.parent) # The root of this repository
 DATA_BASE_DIRECTORY = str(Path(WEBCOMICS_BASE_PATH).parent.parent) # The place to store the data seperately
+IMG_BASE_DIRECTORY = os.path.join(DATA_BASE_DIRECTORY, 'Data', 'imgs')
 
 BOT_NAME = 'webcomics'
 
@@ -70,11 +71,7 @@ DOWNLOAD_DELAY = 3
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'webcomics.pipelines.MetadataPipeline': 350,
-   'webcomics.pipelines.WebcomicImagesPipeline': 300,
 }
-
-IMAGES_STORE = os.path.join(DATA_BASE_DIRECTORY, 'Data', 'imgs')
-
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

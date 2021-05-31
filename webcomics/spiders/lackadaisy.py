@@ -11,6 +11,7 @@ class LackadaisySpider(CrawlSpider):
     name = 'lackadaisy'
     allowed_domains = ['lackadaisycats.com']
     # An Settings aus Projekt rankommen: https://stackoverflow.com/questions/45230147/reading-settings-in-spider-scrapy (30.04.2021)
+    # - das braucht die Spider eigentlich nicht, nur die Pipeline o.ä.
     metadata_fields = ['strip_id', 'title', 'url', 'comment', 'download_date']
 
     # Might need in the future:
