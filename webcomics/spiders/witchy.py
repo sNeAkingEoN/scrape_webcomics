@@ -13,7 +13,7 @@ class WitchySpider(CrawlSpider):
     name = 'witchy'
     allowed_domains = ['witchycomic.com']
     start_urls = ['https://www.witchycomic.com/comic/archive']
-    metadata_fields = ['strip_id', 'title', 'url', 'publ_date','comment']
+    metadata_fields = ['strip_id', 'title', 'url', 'publ_date','last_modified','comment']
     rules = (
         Rule(LxmlLinkExtractor(allow=[r'comic\/page-\d+']), callback='parse_item', follow=False),
         )
