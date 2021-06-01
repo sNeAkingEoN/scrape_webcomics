@@ -15,10 +15,11 @@ class FromArchiveSpider(CrawlSpider):
     metadata_fields = ['strip_id', 'title', 'url', 'publ_date','last_modified','comment']
     links_regex = []
     xpaths = []
-    max_strip_digits = 4
     rules = (
         Rule(LxmlLinkExtractor(allow=links_regex, restrict_xpaths=xpaths), callback='parse_item', follow=False),
         )
+
+    max_strip_digits = 4
             
     def parse_item(self, response):
         page_item = self._create_page_item(response)
