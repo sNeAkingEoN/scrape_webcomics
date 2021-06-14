@@ -26,7 +26,7 @@ class StandStillStaySilenSpider(FromArchiveSpider):
         #     item['strip_id'] = re.search(r'page-(\d+)', response.url).group(1).zfill(self.max_strip_digits)
         # else:
         #     item['strip_id'] = '0'
-        item['strip_id'] = '2-' + response.url.split('=')[-1].zfill(max_strip_digits)
+        item['strip_id'] = '2-' + response.url.split('=')[-1].zfill(self.max_strip_digits)
         item['title'] = response.xpath('//title/text()').get().replace(' ', '-') # gibt's offenbar nicht, deshalb wird der sehr generische Titel genommen
         item['url'] = response.url
         item['img_url'] = "https://{}/{}".format(self.allowed_domains[0], response.xpath('//img[@class="comicnormal"]/@src').get().strip())
