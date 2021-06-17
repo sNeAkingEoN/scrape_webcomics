@@ -1,33 +1,30 @@
 import os.path
 import re
 import scrapy
-from ..items import ComicPageHtmlItem, ComicCanvasImageItem
+from .base_spiders import FromArchiveSpider
+from ..items import ComicPageHtmlItem
 from pathlib import Path
-from PIL import Image
-from scrapy.linkextractors import LinkExtractor
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
-from scrapy.spiders import CrawlSpider, Rule
+from scrapy.spiders import Rule
 
-class WitchySpider(CrawlSpider):
+class WitchySpider(FromArchiveSpider):
     name = 'witchy'
     allowed_domains = ['witchycomic.com']
     start_urls = ['https://www.witchycomic.com/comic/archive']
-    metadata_fields = ['strip_id', 'title', 'url', 'publ_date','last_modified','comment']
+    links_regex = [r'comic\/page-\d+'] # nimmt nur die regulären Comics
     rules = (
-        Rule(LxmlLinkExtractor(allow=[r'comic\/page-\d+']), callback='parse_item', follow=False),
+        Rule(LxmlLinkExtractor(allow=links_regex), callback='parse_item', follow=False),
         )
-            
-    def parse_item(self, response):
-        page_item = self._create_page_item(response)
-        image_item = self._create_image_item(page_item)
-        img_request = scrapy.Request(url=page_item['img_url'], callback=self.save_image, cb_kwargs={'image_item': image_item, 'page_item': page_item}) # evtl. noch ändern oder erweitern um titel
-        yield img_request
+    max_strip_digits = 3
+    metadata_fields = ['strip_id', 'title', 'url', 'publ_date','last_modified','comment']
 
     def _create_page_item(self, response): 
         item = ComicPageHtmlItem()
         item['name'] = self.name
-        item['strip_id'] = re.search(r'page-(\d+)', response.url).group(1).zfill(3)
-        # item['debug'] = response.xpath('//img[@id="cc-comic"]')
+        if re.search(r'page-(\d+)', response.url):
+            item['strip_id'] = re.search(r'page-(\d+)', response.url).group(1).zfill(self.max_strip_digits)
+        else:
+            item['strip_id'] = '0'
         item['title'] = response.xpath('//img[@id="cc-comic"]/@title').get().replace(' ', '-') # gibt's offenbar nicht, deshalb wird der sehr generische Titel genommen
         item['url'] = response.url
         item['img_url'] = response.xpath('//img[@id="cc-comic"]/@src').get()
@@ -35,29 +32,5 @@ class WitchySpider(CrawlSpider):
         item['publ_date'] = response.xpath('//div[@class="cc-publishtime"]/text()').get()
         return item
 
-    def _create_image_item(self, page_item):
-        image_item = ComicCanvasImageItem()
-        image_item['name'] = page_item['name']
-        image_item['url'] = page_item['img_url']
-        image_item['id'] = page_item['strip_id']
-        image_item['title'] = page_item['title']
-        image_item['img_ext'] = image_item['url'].split('.')[-1]
-        return image_item
-
-    def save_image(self, response, image_item, page_item):
-        image_item['last_modified'] = response.headers['last-modified'].decode('utf-8')
-        image_item['img_data'] = response.body
-        page_item['last_modified'] = image_item['last_modified'] # Kommt leider nicht mehr in DF an :(
-
-        img_dir = os.path.join(self.settings.get('IMG_BASE_DIRECTORY'), self.name)
-        img_file = os.path.join(img_dir,'{}_{}.{}'.format(self.name, image_item['id'], image_item['img_ext']))
-
-        if not os.path.exists(img_dir):
-            Path.mkdir(Path(img_dir))
-
-        with open(img_file, 'wb') as imgfile:
-            imgfile.write(image_item['img_data'])
-
-        return page_item
 
 

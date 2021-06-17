@@ -6,25 +6,13 @@
 import scrapy
 
 class ComicPageHtmlItem(scrapy.Item):
-    name = scrapy.Field() # Für Namen des Comics
+    name = scrapy.Field() # Für Namen des Comics bzw. der Spider
     strip_id = scrapy.Field()
     title = scrapy.Field()
     url = scrapy.Field()
-    img_url = scrapy.Field() # Für Metadaten
-    # image_urls = scrapy.Field() - sowas in der Art könnte man nehmen, wenn >1 Bild pro Seite, das könnte aber auch einfach als jeweils neue Seite aufgefasst werden...? Wird wohl erstmal nicht unbedingt passieren...
+    img_url = scrapy.Field()
     comment = scrapy.Field()
-    # img_ext = scrapy.Field()
-    # download_date = scrapy.Field() # Für Datum des Downloads des Images, aus Response ?
+    img_ext = scrapy.Field()
     publ_date = scrapy.Field() # Für Datum, an dem Comic offiziell erschienen ist (bei einigen statt ID)
-    last_modified = scrapy.Field() # 
-    debug = scrapy.Field()
-
-class ComicCanvasImageItem(scrapy.Item): 
-    pass
-    name = scrapy.Field() # Für Namen des Comics
-    url = scrapy.Field() # URL, unter der das Bild zu finden ist
-    id = scrapy.Field() # Comic-Id, wie sie von Website vorgegeben ist
-    title = scrapy.Field()
+    last_modified = scrapy.Field() # Aus Headern der Response zum Bilderdownload
     img_data = scrapy.Field()
-    last_modified = scrapy.Field() # zum Nachvollziehen der Daten
-    img_ext = scrapy.Field() # mal gucken
