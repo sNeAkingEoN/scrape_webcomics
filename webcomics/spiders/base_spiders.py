@@ -37,6 +37,24 @@ class FromArchiveSpider(CrawlSpider):
         item['img_ext'] = ''
         return item
 
+    def save_image(self, response, page_item):
+        page_item['last_modified'] = response.headers['last-modified'].decode('utf-8')
+        page_item['img_data'] = response.body
+        page_item['img_ext'] = response.url.split('.')[-1]
+
+        img_dir = os.path.join(self.settings.get('IMG_BASE_DIRECTORY'), self.name)
+        img_file = os.path.join(img_dir,'{}_{}.{}'.format(self.name, page_item['strip_id'], page_item['img_ext']))
+
+        if not os.path.exists(img_dir):
+            Path.mkdir(Path(img_dir))
+
+        with open(img_file, 'wb') as imgfile:
+            imgfile.write(page_item['img_data'])
+
+        page_item['img_data'] = 'removed' # Easier log output
+        return page_item
+        
+
 class FromStartSpider(Spider):
     name = ''
     allowed_domains = []
