@@ -16,10 +16,14 @@ class RoomieSpider(scrapy.Spider):
 
     def parse_page(self, response):
         print("***************** Found page :)")
+        print(response.url)
         link_to_next = response.xpath('//a[@class="cc-next"]/@href').get()
         print("***************** URL to Next Page:", link_to_next)
         page_item = self._create_page_item(response)
-        return (scrapy.Request(url=link_to_next, callback=self.parse_page, dont_filter=False), page_item)
+        if link_to_next:
+            return (scrapy.Request(url=link_to_next, callback=self.parse_page, dont_filter=False), page_item)
+        else:
+            return page_item
 
     def _create_page_item(self, response):
         item = ComicPageHtmlItem()
