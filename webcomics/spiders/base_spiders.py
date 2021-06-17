@@ -53,13 +53,14 @@ class FromArchiveSpider(CrawlSpider):
 
         page_item['img_data'] = 'removed' # Easier log output
         return page_item
-        
+
 
 class FromStartSpider(Spider):
     name = ''
     allowed_domains = []
     start_urls = []
     metadata_fields = ['strip_id', 'title', 'url', 'img_url', 'comment', 'publ_date']
+    max_strip_digits = 4
 
     def parse(self, response):
         print("+++++++++++++++++++++++First URL downloaded:", response.url)
@@ -85,7 +86,7 @@ class FromStartSpider(Spider):
         page_item['img_ext'] = response.url.split('.')[-1]
 
         img_dir = os.path.join(self.settings.get('IMG_BASE_DIRECTORY'), self.name)
-        img_file = os.path.join(img_dir,'{}_{}.{}'.format(self.name, page_item['strip_id'], page_item['img_ext']))
+        img_file = os.path.join(img_dir,'{}_{}.{}'.format(self.name, page_item['strip_id'].zfill(self.max_strip_digits), page_item['img_ext']))
 
         if not os.path.exists(img_dir):
             Path.mkdir(Path(img_dir))
