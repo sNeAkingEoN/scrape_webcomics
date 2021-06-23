@@ -18,6 +18,10 @@ class StandStillStaySilenSpider(FromArchiveSpider):
     max_strip_digits = 3
     metadata_fields = ['strip_id', 'title', 'url', 'publ_date','last_modified','comment']
 
+    custom_settings = {
+        "JOBDIR": os.path.join(JD, name)
+    }
+
     def _create_page_item(self, response): 
         item = ComicPageHtmlItem()
         item['name'] = self.name

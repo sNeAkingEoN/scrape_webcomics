@@ -27,6 +27,10 @@ class LackadaisySpider(CrawlSpider):
         Rule(LxmlLinkExtractor(allow=r'comic\.php\?comicid=\d+'), callback='parse_item', follow=False),
     )
 
+    custom_settings = {
+        "JOBDIR": os.path.join(JD, name)
+    }
+
     def parse_item(self, response):
         strip = ComicPageHtmlItem()
         strip['name'] = self.__class__.name

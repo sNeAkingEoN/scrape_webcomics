@@ -1,3 +1,4 @@
+import os.path
 import scrapy
 from ..items import ComicPageHtmlItem
 from .base_spiders import FromStartSpider
@@ -9,6 +10,10 @@ class GunnerkriggSpider(FromStartSpider):
     metadata_fields = ['strip_id', 'url', 'img_url', 'comment', 'publ_date']
     domain = start_urls[0]
     max_strip_digits = 4
+
+    custom_settings = {
+        "JOBDIR": os.path.join(JD, name)
+    }
 
     def _create_page_item(self, response):
         item = ComicPageHtmlItem()
