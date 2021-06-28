@@ -1,12 +1,18 @@
+import os.path
 import scrapy
 from ..items import ComicPageHtmlItem
 from .base_spiders import FromStartSpider
+from ..settings import JOBDIR as JD
 
 class RoomieSpider(FromStartSpider):
     name = 'roomie'
     allowed_domains = ['gogetaroomie.com']
     start_urls = ['https://www.gogetaroomie.com/']
     metadata_fields = ['strip_id', 'title', 'url', 'img_url', 'comment', 'publ_date']
+
+    custom_settings = {
+        "JOBDIR": os.path.join(JD, name)
+    }
 
     def _create_page_item(self, response):
         item = ComicPageHtmlItem()

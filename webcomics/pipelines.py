@@ -19,10 +19,10 @@ class MetadataPipeline:
     df = None
 
     def open_spider(self, spider):
-        self.metadata_base_dir = os.path.join(spider.settings['DATA_BASE_DIRECTORY'], 'Data', 'meta')
+        self.metadata_base_dir = spider.settings['META_BASE_DIRECTORY']
         self.metadata_file_name = os.path.join(self.metadata_base_dir, spider.name + '_meta.csv')
         if os.path.isfile(self.metadata_file_name):
-            self.df = pd.read_csv(self.metadata_file_name)
+            self.df = pd.read_csv(self.metadata_file_name,dtype="string")
             print("+++++++++++++++++++++Geöffneter DF:")
             print(self.df)
         else:
@@ -34,12 +34,15 @@ class MetadataPipeline:
         for field in spider.metadata_fields:
             if adapter[field]:
                 csv_row[field] = adapter[field]
+            # else:
+            #     csv_row[field] = 'n.A.'
         self.df = self.df.append(pd.Series(csv_row), ignore_index=True)
         # print('########### Was sagt der Data Frame?')
         # print(self.df)
         return item
 
     def close_spider(self, spider):
+        print("+++++ Was sagt der DataFrame?", self.df)
         if self.df.empty:
             print("****** Oops! Problem mit DataFrame: DF ist empty")
             return

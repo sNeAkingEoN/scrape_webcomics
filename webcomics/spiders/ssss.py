@@ -6,27 +6,30 @@ from ..items import ComicPageHtmlItem
 from pathlib import Path
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import Rule
+from ..settings import JOBDIR as JD
 
 class StandStillStaySilenSpider(FromArchiveSpider):
     name = 'ssss'
     allowed_domains = ['sssscomic.com']
     start_urls = ['https://sssscomic.com/?id=archive']
-    links_regex = [r'comic2\.php\?page=\d+'] # nimmt nur die Comics aus dem 2. Adventure, for brevity.
+    links_regex = [r'comic2\.php\?page=\d+', r'comic\.php\?page=\d+'] # nimmt nur die Comics aus dem 2. Adventure, for brevity.
     rules = (
         Rule(LxmlLinkExtractor(allow=links_regex), callback='parse_item', follow=False),
         )
     max_strip_digits = 3
     metadata_fields = ['strip_id', 'title', 'url', 'publ_date','last_modified','comment']
 
+    custom_settings = {
+        "JOBDIR": os.path.join(JD, name)
+    }
+
     def _create_page_item(self, response): 
         item = ComicPageHtmlItem()
         item['name'] = self.name
-        # TODO: nach Teil abgleichen (Adventure 1 oder Adventure 2)
-        # if re.search(r'page-(\d+)', response.url):
-        #     item['strip_id'] = re.search(r'page-(\d+)', response.url).group(1).zfill(self.max_strip_digits)
-        # else:
-        #     item['strip_id'] = '0'
-        item['strip_id'] = '2-' + response.url.split('=')[-1].zfill(self.max_strip_digits)
+        if not 'comic2' in response.url:
+            item['strip_id'] = '1-{}'.format(response.url.split('=')[-1].zfill(self.max_strip_digits))
+        else:
+            item['strip_id'] = '2-{}'.format(response.url.split('=')[-1].zfill(self.max_strip_digits)) 
         item['title'] = response.xpath('//title/text()').get().replace(' ', '-') # gibt's offenbar nicht, deshalb wird der sehr generische Titel genommen
         item['url'] = response.url
         item['img_url'] = "https://{}/{}".format(self.allowed_domains[0], response.xpath('//img[@class="comicnormal"]/@src').get().strip())

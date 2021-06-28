@@ -6,6 +6,7 @@ from ..items import ComicPageHtmlItem
 from pathlib import Path
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import Rule
+from ..settings import JOBDIR as JD
 
 class WitchySpider(FromArchiveSpider):
     name = 'witchy'
@@ -17,6 +18,10 @@ class WitchySpider(FromArchiveSpider):
         )
     max_strip_digits = 3
     metadata_fields = ['strip_id', 'title', 'url', 'publ_date','last_modified','comment']
+
+    custom_settings = {
+        "JOBDIR": os.path.join(JD, name)
+    }
 
     def _create_page_item(self, response): 
         item = ComicPageHtmlItem()
