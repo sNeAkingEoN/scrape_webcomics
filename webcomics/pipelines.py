@@ -19,7 +19,7 @@ class MetadataPipeline:
     df = None
 
     def open_spider(self, spider):
-        self.metadata_base_dir = os.path.join(spider.settings['DATA_BASE_DIRECTORY'], 'Data', 'meta')
+        self.metadata_base_dir = spider.settings['META_BASE_DIRECTORY']
         self.metadata_file_name = os.path.join(self.metadata_base_dir, spider.name + '_meta.csv')
         if os.path.isfile(self.metadata_file_name):
             self.df = pd.read_csv(self.metadata_file_name,dtype="string")

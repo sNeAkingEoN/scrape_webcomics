@@ -6,6 +6,7 @@ from scrapy.linkextractors import LinkExtractor
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.utils.project import get_project_settings
+from ..settings import JOBDIR as JD
 
 class LackadaisySpider(CrawlSpider):
     name = 'lackadaisy'

@@ -6,6 +6,7 @@ from ..items import ComicPageHtmlItem
 from pathlib import Path
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import Rule
+from ..settings import JOBDIR as JD
 
 class WitchySpider(FromArchiveSpider):
     name = 'witchy'
