@@ -1,10 +1,13 @@
 import os.path
 import re
-import scrapy
-from ..items import ComicPageHtmlItem
 from pathlib import Path
+
+import scrapy
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
-from scrapy.spiders import Spider, CrawlSpider, Rule
+from scrapy.spiders import CrawlSpider, Rule, Spider
+
+from ..items import ComicPageHtmlItem
+
 
 class FromArchiveSpider(CrawlSpider):
     name = 'archive'

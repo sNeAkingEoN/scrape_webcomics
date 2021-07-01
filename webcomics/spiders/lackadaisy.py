@@ -1,12 +1,15 @@
 import os.path
 import re
+
 import scrapy
-from ..items import ComicPageHtmlItem
 from scrapy.linkextractors import LinkExtractor
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.utils.project import get_project_settings
+
+from ..items import ComicPageHtmlItem
 from ..settings import JOBDIR as JD
+
 
 class LackadaisySpider(CrawlSpider):
     name = 'lackadaisy'

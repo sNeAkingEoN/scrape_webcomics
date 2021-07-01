@@ -1,9 +1,12 @@
 import os.path
 import re
+
 import scrapy
+
 from ..items import ComicPageHtmlItem
-from .base_spiders import FromStartSpider
 from ..settings import JOBDIR as JD
+from .base_spiders import FromStartSpider
+
 
 class ARedTailsDreamSpider(FromStartSpider):
     name = 'artd'

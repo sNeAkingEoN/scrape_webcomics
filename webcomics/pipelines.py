@@ -3,13 +3,16 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
-from . import items
-import scrapy
-import pandas as pd
 import os.path
+from pathlib import Path
+
+import pandas as pd
+import scrapy
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-from pathlib import Path
+
+from . import items
+
 
 class MetadataPipeline:
     ''' geht jetzt erstmal davon aus, dass alle Spiders nacheinander abgehandelt werden. 

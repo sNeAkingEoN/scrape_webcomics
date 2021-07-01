@@ -1,9 +1,12 @@
 import os.path
+
 import pandas as pd
 import scrapy
+
 from ..items import ComicPageHtmlItem
-from .base_spiders import FromStartSpider
 from ..settings import JOBDIR as JD
+from .base_spiders import FromStartSpider
+
 
 class GunnerkriggSpider(FromStartSpider):
     name = 'gunnerkrigg'
