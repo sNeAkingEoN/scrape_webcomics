@@ -1,12 +1,15 @@
 import os.path
 import re
-import scrapy
-from .base_spiders import FromArchiveSpider
-from ..items import ComicPageHtmlItem
 from pathlib import Path
+
+import scrapy
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import Rule
+
+from ..items import ComicPageHtmlItem
 from ..settings import JOBDIR as JD
+from .base_spiders import FromArchiveSpider
+
 
 class StandStillStaySilenSpider(FromArchiveSpider):
     name = 'ssss'
