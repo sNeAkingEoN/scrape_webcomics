@@ -66,16 +66,12 @@ class FromStartSpider(Spider):
     max_strip_digits = 4
 
     def parse(self, response):
-        print("+++++++++++++++++++++++First URL downloaded:", response.url)
         link_to_first = self._find_first(response)
-        print("~~~~~~~~~~~~~~~~~~~ URL to First Page:", link_to_first)
         yield scrapy.Request(url=link_to_first, callback=self.parse_page) 
 
     def parse_page(self, response):
-        print("***************** Found page :)", response.url)
         page_item = self._create_page_item(response)
         link_to_next = self._find_next(response)
-        print("***************** URL to Next Page:", link_to_next)
         img_request = scrapy.Request(url=page_item['img_url'], callback=self.save_image, cb_kwargs={'page_item': page_item})
         if link_to_next:
             next_request = scrapy.Request(url=link_to_next, callback=self.parse_page)

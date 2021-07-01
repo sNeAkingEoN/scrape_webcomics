@@ -1,4 +1,5 @@
 import os.path
+from urllib.parse import urljoin
 
 import pandas as pd
 import scrapy
@@ -14,7 +15,7 @@ class GunnerkriggSpider(FromStartSpider):
     start_urls = ['https://www.gunnerkrigg.com']
     metadata_fields = ['strip_id', 'url', 'img_url', 'comment', 'publ_date']
     domain = start_urls[0]
-    archive_url = os.path.join(domain, 'archives/')
+    archive_url = urljoin(domain, 'archives/')
     max_strip_digits = 4
 
     custom_settings = {
@@ -29,20 +30,20 @@ class GunnerkriggSpider(FromStartSpider):
     def _create_page_item(self, response):
         item = ComicPageHtmlItem()
         item['name'] = self.name
-        item['strip_id'] = response.url.split('=')[-1]
+        item['strip_id'] = response.url.split('=')[-1].zfill(self.max_strip_digits)
         item['title'] = None
         item['url'] = response.url
-        item['img_url'] = '{}{}'.format(self.domain, response.xpath('//img[@class="comic_image"]/@src').get())
+        item['img_url'] = urljoin(self.domain, response.xpath('//img[@class="comic_image"]/@src').get())
         item['comment'] = response.xpath('//div[@class="content"]/p').get()
         item['publ_date'] = response.xpath('//div[@class="content"]/a[@class="important"]/following-sibling::text()').get()
         item['img_ext'] = item['img_url'].split('.')[-1]
         return item
 
     def _find_first(self, response):
-        return '{}/{}'.format(self.domain, response.xpath('//img[@src="/images/first_a.jpg"]/parent::a/@href').get())
+        return urljoin(self.domain, response.xpath('//img[@src="/images/first_a.jpg"]/parent::a/@href').get())
 
     def _find_next(self,response):
-        return '{}/{}'.format(self.domain, response.xpath('//img[@src="/images/next_a.jpg"]/parent::a/@href').get())
+        return urljoin(self.domain, response.xpath('//img[@src="/images/next_a.jpg"]/parent::a/@href').get())
 
     def parse_archive(self, response):
         chapter_titles = response.xpath('//h4/text()').getall()[1:]

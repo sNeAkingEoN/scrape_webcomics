@@ -1,5 +1,6 @@
 import os.path
 import re
+from urllib.parse import urljoin
 
 import pandas as pd
 import scrapy
@@ -15,7 +16,7 @@ class QuestionableContentSpider(FromStartSpider):
     allowed_domains = ['questionablecontent.net']
     start_urls = ['https://www.questionablecontent.net/']
     domain = start_urls[0]
-    archive_url = os.path.join(domain, 'archive.php')
+    archive_url = urljoin(domain, 'archive.php')
     metadata_fields = ['strip_id', 'url', 'img_url', 'comment']
 
     max_strip_digits = 4
@@ -35,7 +36,7 @@ class QuestionableContentSpider(FromStartSpider):
         item['strip_id'] = response.url.split('=')[-1].zfill(self.max_strip_digits)
         item['title'] = ''
         item['url'] = response.url
-        item['img_url'] = os.path.join(self.domain, os.path.normpath(response.xpath('//img[@id="strip"]/@src').get()))
+        item['img_url'] = urljoin(self.domain, os.path.normpath(response.xpath('//img[@id="strip"]/@src').get()))
         item['comment'] = response.xpath('//div[@id="news"]').get()
         item['img_ext'] = item['img_url'].split('.')[-1]
         return item
@@ -63,12 +64,10 @@ class QuestionableContentSpider(FromStartSpider):
             outfile.write(df.to_csv(index=False))
 
     def _find_first(self, response):
-        # return '{}/{}'.format(self.domain, response.xpath('//a[text()="First"]/@href').get())
-        return os.path.join(self.domain, response.xpath('//a[text()="First"]/@href').get())
+        return urljoin(self.domain, response.xpath('//a[text()="First"]/@href').get())
 
     def _find_next(self,response):
-        return '{}/{}'.format(self.domain, response.xpath('//a[text()="Next"]/@href').get())
-                # return os.path.join(self.domain, response.xpath('//a[text()="First"]/@href').get())
+        return urljoin(self.domain, response.xpath('//a[text()="Next"]/@href').get())
 
     def _is_guest(self, titlestring):
         for searchstring in 'guest comic', 'guest strip', 'guest week', 'guest-comic', 'guest artiste':
