@@ -1,6 +1,7 @@
 import os.path
 import re
 from pathlib import Path
+from abc import ABC, abstractmethod
 
 import scrapy
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
@@ -9,7 +10,7 @@ from scrapy.spiders import CrawlSpider, Rule, Spider
 from ..items import ComicPageHtmlItem
 
 
-class FromArchiveSpider(CrawlSpider):
+class FromArchiveSpider(CrawlSpider, ABC):
     name = 'archive'
     allowed_domains = []
     start_urls = []
@@ -27,18 +28,9 @@ class FromArchiveSpider(CrawlSpider):
         img_request = scrapy.Request(url=page_item['img_url'], callback=self.save_image, cb_kwargs={'page_item': page_item})
         yield img_request
 
+    @abstractmethod
     def _create_page_item(self, response): 
-        ''' Hier besteht noch Potenzial, weiter zu refactoren'''
-        item = ComicPageHtmlItem()
-        item['name'] = self.name
-        item['strip_id'] = '' 
-        item['title'] = ''
-        item['url'] = ''
-        item['img_url'] = '' 
-        item['comment'] = '' 
-        item['publ_date'] = '' 
-        item['img_ext'] = ''
-        return item
+        pass
 
     def save_image(self, response, page_item):
         page_item['last_modified'] = response.headers['last-modified'].decode('utf-8')
@@ -58,7 +50,7 @@ class FromArchiveSpider(CrawlSpider):
         return page_item
 
 
-class FromStartSpider(Spider):
+class FromStartSpider(Spider, ABC):
     name = ''
     allowed_domains = []
     start_urls = []
@@ -96,14 +88,15 @@ class FromStartSpider(Spider):
         page_item['img_data'] = 'removed' # Easier log output
         return page_item
 
+    @abstractmethod
     def _create_page_item(self, response):
-        item = ComicPageHtmlItem()
-        item['name'] = self.name
-        # Populate Item
-        return item
+        pass
 
+    @abstractmethod
     def _find_first(self, response):
-        return # Find link to start in source code
+        pass
 
+    @abstractmethod
     def _find_next(self,response):
-        return # Fink link to next in source code
+        pass
+    
