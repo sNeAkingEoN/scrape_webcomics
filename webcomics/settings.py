@@ -22,8 +22,8 @@ NEWSPIDER_MODULE = 'webcomics.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'Crawling this awesome webcomic for my master\'s thesis. Contact info: anne_koenigs+msc@posteo.de. Thanks a lot :-)'
-USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0'
+USER_AGENT = 'Stand back, I\'m going to try (digital) humanities. Contact info: anne_koenigs+msc@posteo.de. Thanks :)'
+# USER_AGENT = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -81,7 +81,7 @@ JOBDIR = os.path.join(WEBCOMICS_BASE_PATH, 'crawls')
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 15
 # The maximum download delay to be set in case of high latencies
 AUTOTHROTTLE_MAX_DELAY = 120
 # The average number of requests Scrapy should be sending in parallel to
@@ -98,4 +98,4 @@ HTTPCACHE_DIR = 'httpcache'
 HTTPCACHE_IGNORE_HTTP_CODES = []
 HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 # Default http cache policy. Possibly change when actually scraping
-# HTTP_POLICY = 'scrapy.extensions.httpcache.DummyPolicy'
+HTTP_POLICY = 'scrapy.extensions.httpcache.RFC2616Policy'
