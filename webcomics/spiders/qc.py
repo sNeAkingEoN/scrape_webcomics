@@ -17,7 +17,7 @@ class QuestionableContentSpider(FromStartSpider):
     start_urls = ['https://www.questionablecontent.net/']
     domain = start_urls[0]
     archive_url = urljoin(domain, 'archive.php')
-    metadata_fields = ['strip_id', 'url', 'img_url', 'comment']
+    metadata_fields = ['strip_id', 'url', 'img_url', 'comment', 'last_modified']
 
     max_strip_digits = 4
 

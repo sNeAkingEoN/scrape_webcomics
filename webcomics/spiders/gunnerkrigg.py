@@ -13,7 +13,7 @@ class GunnerkriggSpider(FromStartSpider):
     name = 'gunnerkrigg'
     allowed_domains = ['gunnerkrigg.com']
     start_urls = ['https://www.gunnerkrigg.com']
-    metadata_fields = ['strip_id', 'url', 'img_url', 'comment', 'publ_date']
+    metadata_fields = ['strip_id', 'url', 'img_url', 'comment', 'publ_date', 'last_modified']
     domain = start_urls[0]
     archive_url = urljoin(domain, 'archives/')
     max_strip_digits = 4
