@@ -35,8 +35,8 @@ class ARedTailsDreamSpider(FromStartSpider):
         return item
 
     def _find_first(self, response):
-        return urljoin(self.domain, response.xpath('//area[@id="area2"]/@href').get())
-        # return 'http://www.minnasundberg.fi/comic/page00.php'
+        # return urljoin(self.domain, response.xpath('//area[@id="area2"]/@href').get())
+        return 'http://www.minnasundberg.fi/comic/page00.php'
 
     def _find_next(self,response):
         return urljoin(self.domain, 'comic/{}'.format(response.xpath('//img[contains(@src,"anext.jpg")]/parent::a/@href').get()))
