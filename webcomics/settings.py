@@ -99,3 +99,4 @@ HTTPCACHE_IGNORE_HTTP_CODES = []
 HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 # Default http cache policy. Possibly change when actually scraping
 HTTP_POLICY = 'scrapy.extensions.httpcache.RFC2616Policy'
+# HTTP_POLICY = 'scrapy.extensions.httpcache.DummyPolicy'
