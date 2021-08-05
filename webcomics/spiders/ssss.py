@@ -11,7 +11,7 @@ from ..settings import JOBDIR as JD
 from .base_spiders import FromArchiveSpider
 
 
-class StandStillStaySilenSpider(FromArchiveSpider):
+class StandStillStaySilentSpider(FromArchiveSpider):
     name = 'ssss'
     allowed_domains = ['sssscomic.com']
     start_urls = ['https://sssscomic.com/?id=archive']
