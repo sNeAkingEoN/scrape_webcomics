@@ -41,7 +41,7 @@ class FromArchiveSpider(CrawlSpider, ABC):
         img_file = os.path.join(img_dir,'{}_{}.{}'.format(self.name, page_item['strip_id'], page_item['img_ext']))
 
         if not os.path.exists(img_dir):
-            Path.mkdir(Path(img_dir))
+            Path.mkdir(Path(img_dir), parents=True)
 
         with open(img_file, 'wb') as imgfile:
             imgfile.write(page_item['img_data'])
@@ -80,7 +80,7 @@ class FromStartSpider(Spider, ABC):
         img_file = os.path.join(img_dir,'{}_{}.{}'.format(self.name, page_item['strip_id'].zfill(self.max_strip_digits), page_item['img_ext']))
 
         if not os.path.exists(img_dir):
-            Path.mkdir(Path(img_dir))
+            Path.mkdir(Path(img_dir), parents=True)
 
         with open(img_file, 'wb') as imgfile:
             imgfile.write(page_item['img_data'])
