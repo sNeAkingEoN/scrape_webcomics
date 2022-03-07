@@ -2,7 +2,7 @@ import os.path
 
 import scrapy
 
-from ..items import ComicPageHtmlItem
+from ..items import ComicPageItem
 from ..settings import JOBDIR as JD
 from .base_spiders import FromStartSpider
 
@@ -18,7 +18,7 @@ class RoomieSpider(FromStartSpider):
     }
 
     def _create_page_item(self, response):
-        item = ComicPageHtmlItem()
+        item = ComicPageItem()
         item['name'] = self.name
         item['strip_id'] = response.xpath('//div[@class="cc-publishtime"]/text()').get()
         item['title'] = response.url.split('/')[-1]

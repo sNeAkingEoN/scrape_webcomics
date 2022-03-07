@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 
 import scrapy
 
-from ..items import ComicPageHtmlItem
+from ..items import ComicPageItem
 from ..settings import JOBDIR as JD
 from .base_spiders import FromStartSpider
 
@@ -23,7 +23,7 @@ class ARedTailsDreamSpider(FromStartSpider):
     }
 
     def _create_page_item(self, response):
-        item = ComicPageHtmlItem()
+        item = ComicPageItem()
         item['name'] = self.name
         item['strip_id'] = response.xpath('//p[@class="num"]/text()').get().zfill(self.max_strip_digits)
         item['title'] = response.xpath('//meta[@property="og:description"]/@content').get()

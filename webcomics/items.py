@@ -5,7 +5,7 @@
 
 import scrapy
 
-class ComicPageHtmlItem(scrapy.Item):
+class ComicPageItem(scrapy.Item):
     name = scrapy.Field() # Für Namen des Comics bzw. der Spider
     strip_id = scrapy.Field()
     title = scrapy.Field()

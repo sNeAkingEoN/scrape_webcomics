@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 import pandas as pd
 import scrapy
 
-from ..items import ComicPageHtmlItem
+from ..items import ComicPageItem
 from ..settings import JOBDIR as JD
 from .base_spiders import FromStartSpider
 
@@ -28,7 +28,7 @@ class GunnerkriggSpider(FromStartSpider):
         return (archive_request, scrapy.Request(url=link_to_first, callback=self.parse_page))
 
     def _create_page_item(self, response):
-        item = ComicPageHtmlItem()
+        item = ComicPageItem()
         item['name'] = self.name
         item['strip_id'] = response.url.split('=')[-1].zfill(self.max_strip_digits)
         item['title'] = None

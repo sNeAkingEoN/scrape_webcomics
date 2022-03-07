@@ -7,7 +7,7 @@ from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.utils.project import get_project_settings
 
-from ..items import ComicPageHtmlItem
+from ..items import ComicPageItem
 from ..settings import JOBDIR as JD
 
 
@@ -36,7 +36,7 @@ class LackadaisySpider(CrawlSpider):
     }
 
     def parse_item(self, response):
-        strip = ComicPageHtmlItem()
+        strip = ComicPageItem()
         strip['name'] = self.__class__.name
         strip['title'] = response.xpath('//img/@alt').get() # .replace('Lackadaisy ', '') # Falls "Lackadaisy" nicht Teil des Titles ist
         strip['url'] = response.url # != URL zu Datei!

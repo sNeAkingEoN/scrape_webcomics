@@ -6,7 +6,7 @@ import scrapy
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import Rule
 
-from ..items import ComicPageHtmlItem
+from ..items import ComicPageItem
 from ..settings import JOBDIR as JD
 from .base_spiders import FromArchiveSpider
 
@@ -27,7 +27,7 @@ class WitchySpider(FromArchiveSpider):
     }
 
     def _create_page_item(self, response): 
-        item = ComicPageHtmlItem()
+        item = ComicPageItem()
         item['name'] = self.name
         if re.search(r'page-(\d+)', response.url):
             item['strip_id'] = re.search(r'page-(\d+)', response.url).group(1).zfill(self.max_strip_digits)

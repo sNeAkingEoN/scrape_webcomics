@@ -7,7 +7,7 @@ import scrapy
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import CrawlSpider, Rule, Spider
 
-from ..items import ComicPageHtmlItem
+from ..items import ComicPageItem
 
 
 class FromArchiveSpider(CrawlSpider, ABC):

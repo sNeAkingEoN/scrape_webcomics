@@ -6,7 +6,7 @@ import scrapy
 from scrapy.linkextractors.lxmlhtml import LxmlLinkExtractor
 from scrapy.spiders import Rule
 
-from ..items import ComicPageHtmlItem
+from ..items import ComicPageItem
 from ..settings import JOBDIR as JD
 from .base_spiders import FromArchiveSpider
 
@@ -27,7 +27,7 @@ class StandStillStaySilentSpider(FromArchiveSpider):
     }
 
     def _create_page_item(self, response): 
-        item = ComicPageHtmlItem()
+        item = ComicPageItem()
         item['name'] = self.name
         if not 'comic2' in response.url:
             item['strip_id'] = '1-{}'.format(response.url.split('=')[-1].zfill(self.max_strip_digits))
