@@ -15,7 +15,7 @@ class WitchySpider(FromArchiveSpider):
     name = 'witchy'
     allowed_domains = ['witchycomic.com']
     start_urls = ['https://www.witchycomic.com/comic/archive']
-    links_regex = [r'comic\/page-\d+'] # nimmt nur die regulären Comics
+    links_regex = [r'comic\/page-\d+'] # Only regular comics, no guest art
     rules = (
         Rule(LxmlLinkExtractor(allow=links_regex), callback='parse_item', follow=False),
         )
@@ -33,7 +33,7 @@ class WitchySpider(FromArchiveSpider):
             item['strip_id'] = re.search(r'page-(\d+)', response.url).group(1).zfill(self.max_strip_digits)
         else:
             item['strip_id'] = '0'
-        item['title'] = response.xpath('//img[@id="cc-comic"]/@title').get().replace(' ', '-') # gibt's offenbar nicht, deshalb wird der sehr generische Titel genommen
+        item['title'] = response.xpath('//img[@id="cc-comic"]/@title').get().replace(' ', '-') # Only a generic title here
         item['url'] = response.url
         item['img_url'] = response.xpath('//img[@id="cc-comic"]/@src').get()
         item['comment'] = response.xpath('//div[@class="cc-newsbody"]').get()
