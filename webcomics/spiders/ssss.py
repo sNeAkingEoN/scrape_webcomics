@@ -32,13 +32,8 @@ class StandStillStaySilentSpider(FromArchiveSpider):
         if not 'comic2' in response.url:
             item['strip_id'] = 10000000 + int(response.url.split('=')[-1])
         else:
-<<<<<<< HEAD
             item['strip_id'] = 20000000 + int(response.url.split('=')[-1])
         item['title'] = response.xpath('//title/text()').get().replace(' ', '-') # gibt's offenbar nicht, deshalb wird der sehr generische Titel genommen
-=======
-            item['strip_id'] = '2-{}'.format(response.url.split('=')[-1].zfill(self.max_strip_digits)) 
-        item['title'] = response.xpath('//title/text()').get().replace(' ', '-') # Only generic titles for comic pages
->>>>>>> e1f063de4e2354ab8b3158ce8f1b23f0fb08e764
         item['url'] = response.url
         item['img_url'] = "https://{}/{}".format(self.allowed_domains[0], response.xpath('//img[@class="comicnormal"]/@src').get().strip())
         item['comment'] = response.xpath('//div[@id="comic_text"]/span[@id="comicdate"]/following-sibling::p').get() # quite complex part to scrape. `following-sibling::*` would get the whole comment section, which is not desired.
