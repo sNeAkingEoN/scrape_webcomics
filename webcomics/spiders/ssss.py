@@ -30,9 +30,9 @@ class StandStillStaySilentSpider(FromArchiveSpider):
         item = ComicPageItem()
         item['name'] = self.name
         if not 'comic2' in response.url:
-            item['strip_id'] = '1-{}'.format(response.url.split('=')[-1].zfill(self.max_strip_digits))
+            item['strip_id'] = 10000000 + int(response.url.split('=')[-1])
         else:
-            item['strip_id'] = '2-{}'.format(response.url.split('=')[-1].zfill(self.max_strip_digits)) 
+            item['strip_id'] = 20000000 + int(response.url.split('=')[-1])
         item['title'] = response.xpath('//title/text()').get().replace(' ', '-') # gibt's offenbar nicht, deshalb wird der sehr generische Titel genommen
         item['url'] = response.url
         item['img_url'] = "https://{}/{}".format(self.allowed_domains[0], response.xpath('//img[@class="comicnormal"]/@src').get().strip())
