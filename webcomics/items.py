@@ -6,13 +6,13 @@
 import scrapy
 
 class ComicPageItem(scrapy.Item):
-    name = scrapy.Field() # Für Namen des Comics bzw. der Spider
+    name = scrapy.Field() # Name of comic / name of spider
     strip_id = scrapy.Field()
     title = scrapy.Field()
     url = scrapy.Field()
     img_url = scrapy.Field()
     comment = scrapy.Field()
     img_ext = scrapy.Field()
-    publ_date = scrapy.Field() # Für Datum, an dem Comic offiziell erschienen ist (bei einigen statt ID)
-    last_modified = scrapy.Field() # Aus Headern der Response zum Bilderdownload
+    publ_date = scrapy.Field() # Official publication date. Might replace strip id if not present
+    last_modified = scrapy.Field() # From HTTP response header: last-modified
     img_data = scrapy.Field()
